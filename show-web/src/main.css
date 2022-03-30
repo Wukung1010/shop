@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+html, body {
+  @apply h-full w-full antialiased font-sans;
+}
+
+#app {
+  @apply h-full;
+}
+
+input {
+  @apply border outline-none px-2;
+}
+
+textarea {
+  @apply border outline-none resize-none align-top px-2;
+}

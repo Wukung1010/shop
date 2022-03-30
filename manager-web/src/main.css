@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+html, body {
+  @apply h-full w-full antialiased font-sans;
+}
+
+input {
+  @apply border rounded-sm outline-none py-1 px-2;
+}
+
+button {
+  @apply px-5 py-2 rounded-sm;
+}
+
+#app {
+  @apply h-full w-full
+}
