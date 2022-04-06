@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+html, body, #app {
+  @apply w-full h-full font-sans overflow-hidden antialiased;
+}
+
+input[type="number"]{
+  -moz-appearance: none;
+}
+
+input {
+  @apply outline-none px-2 py-1 rounded-md border-2 border-transparent;
+}
+
+.input-b {
+  @apply rounded-none border-t-0 border-l-0 border-r-0 border-b-2;
+}
+
+span {
+  @apply px-2 py-1;
+}
+
+button {
+  @apply px-2 py-1 rounded-md hover:bg-gray-400/10;
+}
+
+.r-box {
+  @apply p-3 rounded-md shadow-md overflow-hidden;
+}
+
+.shadow-outer {
+  box-shadow: 0 0 3px 3px rgb(0 0 0 / 10%);
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.2s ease-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
