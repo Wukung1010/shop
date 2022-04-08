@@ -22,7 +22,7 @@ function change (key: string, e: Event) {
       <textarea class="w-5/6" :value="store.state.user.address" @input="change('address', $event)"></textarea>
     </div>
     <div>
-      <span class="inline-block w-1/6">客户说明</span>
+      <span class="inline-block w-1/6">客户留言</span>
       <textarea class="w-5/6" :value="store.state.user.remarks" @input="change('remarks', $event)"></textarea>
     </div>
   </div>

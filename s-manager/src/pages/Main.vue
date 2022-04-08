@@ -25,7 +25,7 @@ function go (item: { path: RouteLocationRaw; }) {
     <Header></Header>
     <div class="flex flex-auto space-x-3 overflow-hidden">
       <Menu :cur="curRoute.path" :list="list" @go="go"></Menu>
-      <div class="flex-auto relative">
+      <div class="flex-auto">
         <RouterView v-slot="{ Component }">
           <Transition>
             <KeepAlive>

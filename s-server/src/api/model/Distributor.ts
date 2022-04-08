@@ -11,7 +11,7 @@ const T_Distributor = {
   },
   code: DataTypes.STRING,
   name: DataTypes.STRING,
-  phone: DataTypes.INTEGER,
+  phone: DataTypes.STRING,
   address: DataTypes.STRING,
   remarks: DataTypes.STRING,
 }

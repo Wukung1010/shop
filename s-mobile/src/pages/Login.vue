@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import type { Store } from '../store'
 
 const store = useStore<Store>()
-
 const router = useRouter()
 
-const phone = ref('')
+store.commit('distributor', window.location.search.replace('?id=', ''))
 
+const phone = ref('')
 const warnInfo = ref('')
 
 const loadding = ref(false)
-
 function login () {
   if (!/^1[3456789]\d{9}$/.test(phone.value)) {
     warnInfo.value = '请输入正确的手机号'    

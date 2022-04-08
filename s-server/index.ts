@@ -3,7 +3,8 @@ import { useToken, useUser } from './src/user'
 import { useCommodity } from './src/commodity'
 import { useOrder } from './src/order'
 import { useDistributor } from './src/distributor'
-import { useSys} from './src/sys'
+import { useSys } from './src/sys'
+import { useQR } from './src/qr'
 import api from './src/api'
 import { PORT } from './src/config'
 
@@ -16,10 +17,11 @@ try {
 const app = express()
 
 app.use((req, res, next) => {
-  if (req.path.startsWith('/api/login') || req.path.startsWith('/api/mobile') || req.path.startsWith('/mobile') || req.path.startsWith('/manager')) {
-    next()
-  } else {
+  console.log(req.path)
+  if (req.path.startsWith('/api/manager')) {
     useToken(req, res, next)
+  } else {
+    next()
   }
 })
 
@@ -35,12 +37,13 @@ app.use((error: number, req: Request, res: Response, next: NextFunction) => {
 
 app.use('/manager', express.static('./manager/'))
 app.use('/mobile', express.static('./mobile/'))
-app.use('/api(/mobile)?', express.static('./assets/'))
+app.use(express.static('./assets/'))
 
 app.use('/api/login', useUser)
-app.use('/api(/mobile)?/commodity', useCommodity)
-app.use('/api(/mobile)?/order', useOrder)
-app.use('/api/distributor', useDistributor)
-app.use('/api/sys', useSys)
+app.use('/api(/manager)?(/mobile)?/commodity', useCommodity)
+app.use('/api(/manager)?(/mobile)?/order', useOrder)
+app.use('/api(/manager)?/distributor', useDistributor)
+app.use('/api(/manager)?/sys', useSys)
+app.use('/api(/manager)?/qr', useQR)
 
 app.listen(PORT)

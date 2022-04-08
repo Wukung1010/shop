@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Order, OrderState } from '../../../types'
+import { Order, OrderState } from '../types'
 
 const props = defineProps<{
   state: OrderState;
@@ -36,7 +36,7 @@ const realDel = computed(() => props.state === OrderState.DEL)
           <th>姓名</th>
           <th>电话</th>
           <th>地址</th>
-          <th>说明</th>
+          <th>客户留言</th>
           <th class="text-right px-2">总价</th>
           <th class="text-center">创建时间</th>
           <th class="text-center">更新时间</th>

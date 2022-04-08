@@ -7,7 +7,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import store from '../store'
 
 const routes = [
-  { path: '/', component: Login },
+  { path: '/:id?', component: Login },
   { path: '/main', component: Main, children: [
     { path: 'order', component: Order },
     { path: 'searchOrder', component: SearchOrder },
@@ -21,8 +21,8 @@ const router = createRouter({
 })
 
 router.beforeEach((route) => {
-  if (store.state.user.phone.length === 0 && route.path !== '/') {
-    router.push('/')
+  if (store.state.user.phone.length === 0 && route.path.includes('/main')) {
+    router.push(`/${store.state.distributor}`)
   }
 })
 

@@ -8,7 +8,6 @@ import Warning from '../components/Warning.vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { Store } from '../store'
-import Price from '../components/Price.vue'
 
 const router = useRouter()
 const store = useStore<Store>()
@@ -46,10 +45,12 @@ function createOrder () {
 const showConfirm = ref(false)
 function confirmSubmit () {
   showConfirm.value = false
-  store.dispatch('submitOrder').then(() => {
-    store.commit('clearCart')
-    router.push('searchOrder')
-  })
+  store
+    .dispatch('submitOrder')
+    .then(() => {
+      store.commit('clearCart')
+      router.push('searchOrder')
+    })
 }
 
 </script>
@@ -79,9 +80,9 @@ function confirmSubmit () {
       </div>
       <button class="bg-teal-400 p-3" @click="showCommodityPanel = true">添加新的商品</button>
     </div>
-    <div class="flex border-t h-12">
+    <div class="flex border-t h-12 shrink-0">
       <div class="flex-auto text-lg flex items-center px-2">
-        <Price></Price>
+        <span class="text-rose-500">总价: ¥{{store.state.order.total}}</span>
       </div>
       <div class="h-full w-24 text-center bg-teal-400 flex flex-col justify-center" @click="createOrder">
         <span class="text-color">提交订单</span>

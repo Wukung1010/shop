@@ -19,16 +19,18 @@ const style = computed(() => props.warn ? { 'border-rose-500': true } : { 'borde
 </script>
 
 <template>
-  <input 
-    :class="style"
-    :ref="input"
-    :value="props.value"
-    :type="type"
-    :placeholder="placeholder"
-    @input="emits('update:value', ($event.target as any).value)">
-  <span 
-    :class="{ 'text-rose-500': true, 'text-lg': true, 'py-0': true, 'opacity-0': !props.warn }"
-    >{{props.warnInfo}}</span>
+  <div class="flex flex-col">
+    <input 
+      :class="style"
+      :ref="input"
+      :value="props.value"
+      :type="type"
+      :placeholder="placeholder"
+      @input="emits('update:value', ($event.target as any).value)">
+    <span 
+      :class="{ 'text-rose-500': true, 'text-lg': true, 'py-0': true, 'opacity-0': !props.warn }"
+      >{{props.warnInfo}}</span>
+  </div>
 </template>
 
 <style></style>

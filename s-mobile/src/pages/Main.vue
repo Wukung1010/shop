@@ -34,7 +34,7 @@ function goSearchChangeOrder () {
 
 <template>
   <div class="w-full h-full overflow-hidden flex flex-col bg-white">
-    <div class="h-14 bg-white flex items-center border-b box-border">
+    <div v-if="false" class="h-14 bg-white flex items-center border-b box-border">
       <span class="flex-auto block text-center">
         {{ store.state.title }}
       </span>

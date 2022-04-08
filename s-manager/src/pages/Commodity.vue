@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import CommodityTd from '../components/CommotityTableItem.vue'
+import Create from '../components/Create.vue'
+import Table from '../components/Table.vue'
 import api from '../api'
-import type { Commodity } from '../../../types'
+import type { Commodity } from '../types'
 
 const commodities = ref<Commodity[]>([])
+const columns = [ '序号', '商品名称', '商品价格', '运费', '库存', '创建时间', '更新时间', '操作' ]
+const sizes = [ 30, 200, 90, 90, 90, 100, 100, 80 ]
 
 const adding = ref(false)
 const createNew = () => ({
@@ -95,79 +99,32 @@ onMounted(() => loadCommodity())
         <button @click="search">搜索</button>
       </div>
     </div>
-    <div class="r-box bg-white space-y-3 shrink-0" v-show="adding">
+    <Create title="新建商品" v-model:show="adding" @ok="submitCommodity">
       <div>
-        <span class="text-gray-500">新建商品</span>
+        <span>商品名称</span>
+        <input class="input-b w-96" type="text" v-model="newCommodity.title">
       </div>
-      <div class="border-b border-t py-3 flex space-x-3">
-        <div>
-          <span>商品名称</span>
-          <input class="input-b border-gray-500 w-96" type="text" v-model="newCommodity.title">
-        </div>
-        <div>
-          <span>商品价格</span>
-          <input class="input-b border-gray-500 w-20 text-right" type="number" v-model="newCommodity.price">元
-          /
-          <input class="input-b border-gray-500 text-center w-12" type="text" v-model="newCommodity.priceUnit">
-        </div>
-        <div>
-          <span>运费</span>
-          <input class="input-b border-gray-500 w-20 text-right" type="number" v-model="newCommodity.fare">元
-          /
-          <input class="input-b border-gray-500 text-center w-12" type="text" v-model="newCommodity.priceUnit">
-        </div>
-        <div>
-          <span>库存</span>
-          <input class="input-b border-gray-500 w-20" type="number" v-model="newCommodity.count">
-        </div>
+      <div>
+        <span>商品价格</span>
+        <input class="input-b w-20 text-right" type="number" v-model="newCommodity.price">元
+        /
+        <input class="input-b text-center w-12" type="text" v-model="newCommodity.priceUnit">
       </div>
-      <div class="text-right">
-        <button class="px-10" @click="adding = false">取消</button>
-        <button class="px-10 bg-teal-400 hover:bg-teal-500" @click="submitCommodity">添加</button>
+      <div>
+        <span>运费</span>
+        <input class="input-b w-20 text-right" type="number" v-model="newCommodity.fare">元
+        /
+        <input class="input-b text-center w-12" type="text" v-model="newCommodity.priceUnit">
       </div>
-    </div>
+      <div>
+        <span>库存</span>
+        <input class="input-b w-20" type="number" v-model="newCommodity.count">
+      </div>
+    </Create>
     <div class="r-box flex-auto flex flex-col bg-white overflow-hidden">
-      <div>
-        <table class="rounded-md w-full overflow-hidden">
-          <thead class="text-xl h-10 bg-gray-200 whitespace-nowrap">
-            <th>序号</th>
-            <th>商品名称</th>
-            <th>商品价格</th>
-            <th>运费</th>
-            <th>库存</th>
-            <th>创建时间</th>
-            <th>更新时间</th>
-            <th>操作</th>
-          </thead>
-          <colgroup>
-            <col width="30">
-            <col width="200">
-            <col width="90">
-            <col width="90">
-            <col width="90">
-            <col width="100">
-            <col width="100">
-            <col width="80">
-          </colgroup>
-        </table>
-      </div>
-      <div class="flex-auto overflow-auto">
-        <table class="w-full table-fixed">
-          <colgroup>
-            <col width="30">
-            <col width="200">
-            <col width="90">
-            <col width="90">
-            <col width="90">
-            <col width="100">
-            <col width="100">
-            <col width="80">
-          </colgroup>
-          <tbody class="overflow-auto">
-            <CommodityTd v-for="item,index in commodities" :index="index" :item="item" @update="(item: any) => updateCommodity(item, index)" @remove="removeCommodity(index)"></CommodityTd>
-          </tbody>
-        </table>
-      </div>
+      <Table :columns="columns" :sizes="sizes">
+        <CommodityTd v-for="item,index in commodities" :index="index" :item="item" @update="(item: any) => updateCommodity(item, index)" @remove="removeCommodity(index)"></CommodityTd>
+      </Table>
     </div>
   </div>
 </template>

@@ -73,6 +73,14 @@ onMounted(() => {
           <span>{{item.address}}</span>
           <span class="text-sm text-gray-500">备注</span>
           <span>{{item.remarks}}</span>
+          <span class="text-sm text-gray-500">商品</span>
+          <div class="flex" v-for="c in item.commodities">
+            <div class="flex-auto">
+              <span>{{c.title}}</span>
+              <span class="ml-1">X{{c.buyCount}}</span>
+            </div>
+            <span>¥{{(c.price * c.buyCount).toFixed(2)}}</span>
+          </div>
         </div>
         <div class="text-right">
           <span class="text-rose-400">总价: ¥{{item.total}}</span>

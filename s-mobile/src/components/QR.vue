@@ -3,7 +3,7 @@ defineEmits<{
   (event: 'cannel'): void
 }>()
 
-const QR = '/api/mobile/QR.jpeg'
+const QR = '/api/qr/business'
 </script>
 
 <template>

@@ -15,8 +15,8 @@ input {
   @apply outline-none px-2 py-1 rounded-md border-2 border-transparent;
 }
 
-.input-b {
-  @apply rounded-none border-t-0 border-l-0 border-r-0 border-b-2;
+tr {
+  @apply border-b h-16 hover:bg-gray-400/10;
 }
 
 span {
@@ -27,12 +27,23 @@ button {
   @apply px-2 py-1 rounded-md hover:bg-gray-400/10;
 }
 
+.input-b {
+  @apply rounded-none border-t-0 border-l-0 border-r-0 border-b border-gray-400;
+}
+
 .r-box {
   @apply p-3 rounded-md shadow-md overflow-hidden;
 }
 
 .shadow-outer {
   box-shadow: 0 0 3px 3px rgb(0 0 0 / 10%);
+}
+
+.ok-btn {
+  @apply bg-teal-400 hover:bg-teal-500
+}
+.cannel-btn {
+  @apply bg-rose-400 hover:bg-rose-500
 }
 
 .v-enter-active,

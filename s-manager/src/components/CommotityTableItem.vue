@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { Commodity } from '../../../types'
+import { Commodity } from '../types'
 
 const props = defineProps<{
   index: number;
@@ -39,7 +39,7 @@ function updating () {
 </script>
 
 <template>
-  <tr class="text-right border-b h-16 hover:bg-gray-400/10" :class="{ 'shadow-outer': editing, 'shadow-gray-400': editing }">
+  <tr class="text-right" :class="{ 'shadow-outer': editing, 'shadow-gray-400': editing }">
     <td class="text-center">
       {{index + 1}}
     </td>
@@ -74,8 +74,8 @@ function updating () {
       {{new Date(item.updatedAt!).toLocaleString()}}
     </td>
     <td class="text-center">
-      <button class="bg-teal-400 hover:bg-teal-500" @click="updating">{{editing ? '确定更新' : '更新' }}</button>
-      <button class="bg-rose-400 hover:bg-rose-500 ml-1" @click="$emit('remove')">删除</button>
+      <button class="ok-btn" @click="updating">{{editing ? '确定更新' : '更新' }}</button>
+      <button class="cannel-btn ml-1" @click="$emit('remove')">删除</button>
     </td>
   </tr>
 </template>

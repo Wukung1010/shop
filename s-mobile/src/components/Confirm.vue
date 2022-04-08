@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Price from './Price.vue'
 import { useStore } from 'vuex'
 import type { Store } from '../store'
 
@@ -26,7 +25,10 @@ function ok () {
       <span class="border-b py-1">确认信息</span>
       <div class="flex flex-col flex-auto">
         <span class="text-sm text-gray-400">地址信息</span>
-        <span class="overflow-hidden text-ellipsis">{{store.state.user.name}} {{store.state.user.phone}}</span>
+        <div class="flex">
+          <span class="overflow-hidden text-ellipsis flex-auto">{{store.state.user.name}}</span>
+          <span class="shrink-0">{{store.state.user.phone}}</span>
+        </div>
         <span class="overflow-hidden text-ellipsis">{{store.state.user.address}}</span>
         <span class="overflow-hidden text-ellipsis">{{store.state.user.remarks}}</span>
         <span class="text-sm text-gray-400">商品信息</span>
@@ -34,14 +36,25 @@ function ok () {
           <span class="flex-auto">{{item.title}} x {{item.buyCount}}</span>
           <span>¥{{(item.buyCount * item.price).toFixed(2)}}</span>
         </div>
-      </div>
-      <div class="flex flex-col">
-        <span class="text-sm text-gray-400">合计</span>
-        <Price class="text-right"></Price>
+        <span class="text-sm text-gray-400">价格</span>
+        <div class="flex flex-col text-rose-400">
+          <div class="flex">
+            <span class="flex-auto">商品总价</span>
+            <span>¥{{store.state.order.commoditiesPrice}}</span>
+          </div>
+          <div class="flex">
+            <span class="flex-auto">运费</span>
+            <span>¥{{store.state.order.fare}}</span>
+          </div>
+          <div class="flex">
+            <span class="flex-auto">合计</span>
+            <span>¥{{store.state.order.total}}</span>
+          </div>
+        </div>
       </div>
       <div class="flex border-t text-center pt-2">
         <div class="w-1/2 p-1" @click="cannel">取消</div>
-        <div class="w-1/2 p-1 bg-green-400" @click="ok">下单</div>
+        <div class="w-1/2 p-1 bg-teal-400" @click="ok">下单</div>
       </div>
     </div>
   </div>
