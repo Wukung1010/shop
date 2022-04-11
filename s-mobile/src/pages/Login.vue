@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import type { Store } from '../store'
 
 const store = useStore<Store>()
 const router = useRouter()
-
-store.commit('distributor', window.location.search.replace('?id=', ''))
 
 const phone = ref('')
 const warnInfo = ref('')

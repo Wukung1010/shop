@@ -7,7 +7,7 @@ const title = '万顺丰建材配送商城'
     <span class="flex-auto text-2xl">
       {{title}}
     </span>
-    <button>注销</button>
+    <button v-if="false">注销</button>
   </div>
 </template>
 

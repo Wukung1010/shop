@@ -26,7 +26,7 @@ export type Order = {
   id: number;
   code: string;
   state: OrderState;
-  distributor: number;
+  distributor: string;
   phone: string;
   farePrice: number;
   commoditiesPrice: number;

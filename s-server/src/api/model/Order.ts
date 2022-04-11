@@ -1,5 +1,6 @@
 import { Sequelize, Model, DataTypes } from 'sequelize'
-import type { Order as TOrder } from '../../types' 
+import { getCode } from '../DB'
+import type { Order as TOrder } from '../../types'
 
 const MODEL_NAME = 's_orders'
 
@@ -11,7 +12,7 @@ const T_Order = {
   },
   code: DataTypes.STRING,
   state: DataTypes.INTEGER,
-  distributor: DataTypes.INTEGER,
+  distributor: DataTypes.STRING,
   phone: DataTypes.STRING,
   farePrice: DataTypes.FLOAT,
   commoditiesPrice: DataTypes.FLOAT,
@@ -43,7 +44,6 @@ export default {
     return Order.findAll({ where: options, order: [['updatedAt', 'DESC']]  }).then((data) => formatCommodities(data as any))
   },
   add ({
-    code,
     state, 
     distributor,
     phone,
@@ -56,7 +56,7 @@ export default {
     commodities,
   }: TOrder) {
     return Order.create({
-      code,
+      code: getCode(),
       state,
       distributor,
       phone,

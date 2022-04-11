@@ -21,8 +21,8 @@ const warnInfo = {
 const nInfo = ref(warnInfo.name)
 const pInfo = ref(warnInfo.pas)
 
-watch(userName, () => userNameWarn.value = false)
-watch(userPas, () => userPasWarn.value = false)
+watch(userName, () => (userNameWarn.value = false, userNameWarn.value = false))
+watch(userPas, () => (userNameWarn.value = false, userPasWarn.value = false))
 
 function check () {
   if (userName.value === '') {

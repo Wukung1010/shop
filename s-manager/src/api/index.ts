@@ -1,4 +1,4 @@
-import { Commodity, Distributor, Order } from '../types'
+import { Commodity, Distributor, Order, Sys } from '../types'
 
 const CONFIG = {
   
@@ -28,6 +28,25 @@ export default {
   },
   login (data: { user: string; password: string; }) {
     return http('/api/login', {
+      method: 'POST',
+      headers: HEADER_JSON,
+      body: JSON.stringify(data),
+    })
+  },
+  changeP (op: string, np: string) {
+    return http('/api/sys/updateP', {
+      method: 'POST',
+      headers: HEADER_JSON,
+      body: JSON.stringify({ op, np }),
+    })
+  },
+  getCommon () {
+    return http('/api/sys/all', {
+      method: 'GET',
+    })
+  },
+  updateCommon (data: Sys) {
+    return http('/api/sys/update', {
       method: 'POST',
       headers: HEADER_JSON,
       body: JSON.stringify(data),

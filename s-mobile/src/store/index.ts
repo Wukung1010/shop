@@ -4,7 +4,7 @@ import api from '../api'
 
 export type Store = {
   title: string;
-  distributor: number;
+  distributor: string;
   commodity: {
     loaded: boolean;
     list: Commodity[];
@@ -22,7 +22,7 @@ const store = createStore<Store>({
   state () {
     return {
       title: '万顺丰建材配送商城',
-      distributor: 0,
+      distributor: '',
       commodity: {
         loaded: false,
         list: [],
@@ -42,8 +42,8 @@ const store = createStore<Store>({
     }
   },
   mutations: {
-    distributor (state, id) {
-      state.distributor = id || 0
+    distributor (state, code: string) {
+      state.distributor = code || ''
     },
     initCommodityList (state, list) {
       state.commodity.loaded = true

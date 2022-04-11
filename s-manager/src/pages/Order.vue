@@ -7,8 +7,8 @@ import { Distributor, Order, OrderState } from '../types'
 
 const allDistributors = ref<Distributor[]>([])
 const allOrders = ref<Order[]>([])
-const columns = [ '序号', '姓名', '电话', '地址', '客户留言', '总价', '创建时间', '分销人', '操作' ]
-const sizes = [ 60, 100, 100, 100, 100, 100, 100, 100, 120 ]
+const columns = [ '序号', '订单号', '姓名', '电话', '地址', '客户留言', '总价', '创建时间', '分销人', '操作' ]
+const sizes = [ 60, 100, 100, 100, 100, 100, 100, 100, 100, 120 ]
 
 const state = ref(OrderState.PRE_PAY)
 const isPrePay = computed(() => state.value === OrderState.PRE_PAY)
@@ -67,7 +67,7 @@ const distributorDetailed = ref<Distributor>()
 function show (data: Order) {
   showDetailed.value = true
   orderDetailed.value = data
-  distributorDetailed.value = allDistributors.value.find(({ id }) => data.distributor === id)
+  distributorDetailed.value = allDistributors.value.find(({ code }) => data.distributor === code)
 }
 
 onMounted(() => loadOrders())
@@ -89,16 +89,17 @@ onMounted(() => loadOrders())
     </div>
     <div class="r-box bg-white flex-auto">
       <Table :columns="columns" :sizes="sizes">
-        <tr v-for="item,index in showOrders">
-          <td class="text-center">{{index + 1}}</td>
+        <tr class="text-center" v-for="item,index in showOrders">
+          <td>{{index + 1}}</td>
+          <td>{{item.code}}</td>
           <td>{{item.name}}</td>
           <td>{{item.phone}}</td>
           <td>{{item.address}}</td>
           <td>{{item.remarks}}</td>
-          <td class="text-right px-2">¥{{item.total}}</td>
-          <td class="text-center text-gray-500">{{new Date(item.createdAt!).toLocaleString()}}</td>
-          <td class="text-center text-gray-500">{{allDistributors.find(({ id }) => id === item.distributor)?.name || ''}}</td>
-          <td class="text-center">
+          <td>¥{{item.total}}</td>
+          <td class="text-gray-500">{{new Date(item.createdAt!).toLocaleString()}}</td>
+          <td class="text-gray-500">{{allDistributors.find(({ code }) => code === item.distributor)?.name || ''}}</td>
+          <td>
             <button class="ok-btn" @click="show(item)">详细</button>
             <button class="ok-btn ml-1" v-show="isPrePay" @click="update(item)">支付完成</button>
             <button class="cannel-btn ml-1" @click="remove(item, index)">{{isDel ? '彻底删除' : '删除'}}</button>
@@ -106,8 +107,8 @@ onMounted(() => loadOrders())
         </tr>
       </Table>
     </div>
+    <OrderInfo v-model:show="showDetailed" :order="orderDetailed!" :distributor="distributorDetailed!"></OrderInfo>
   </div>
-  <OrderInfo v-model:show="showDetailed" :order="orderDetailed!" :distributor="distributorDetailed!"></OrderInfo>
 </template>
 
 <style></style>

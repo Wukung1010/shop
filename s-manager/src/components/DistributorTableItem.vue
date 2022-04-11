@@ -30,14 +30,14 @@ function updating () {
 </script>
 
 <template>
-  <tr class="text-right" :class="{ 'shadow-outer': editing, 'shadow-gray-400': editing }">
-    <td class="text-center">
+  <tr :class="{ 'text-center': true, 'shadow-outer': editing, 'shadow-gray-400': editing }">
+    <td>
       {{index + 1}}
     </td>
-    <td class="text-left">
+    <td>
       <input class="bg-transparent" :class="editingClass" :disabled="!editing" type="text" v-model="phone">
     </td>
-    <td class="text-left">
+    <td>
       <input class="bg-transparent" :class="editingClass" :disabled="!editing" type="text" v-model="name">
     </td>
     <td class="text-left">
@@ -46,7 +46,7 @@ function updating () {
     <td class="text-left">
       <input class="bg-transparent" :class="editingClass" :disabled="!editing" type="text" v-model="remarks">
     </td>
-    <td class="text-center">
+    <td>
       <button class="ok-btn" @click="$emit('qr')">下载二维码</button>
       <button class="ok-btn ml-1" @click="updating">{{editing ? '确定更新' : '更新' }}</button>
       <button class="cannel-btn ml-1" @click="$emit('remove')">删除</button>

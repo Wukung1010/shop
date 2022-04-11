@@ -6,4 +6,8 @@ const sequelize = new Sequelize(M_DATABASE, M_USER, M_PASSWORD, {
   dialect: 'mysql',
 })
 
+export function getCode () {
+  return `0000${Date.now()}`
+}
+
 export default sequelize

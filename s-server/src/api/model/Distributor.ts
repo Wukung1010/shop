@@ -1,4 +1,5 @@
 import { Sequelize, Model, DataTypes } from 'sequelize'
+import { getCode } from '../DB'
 import type { Distributor as TDistributor } from '../../types' 
 
 const MODEL_NAME = 's_distributor'
@@ -29,14 +30,13 @@ export default {
     return Distributor.findOne({ where: { id }})
   },
   add ({
-    code,
     name,
     phone,
     address,
     remarks,
   }: TDistributor) {
     return Distributor.create({
-      code,
+      code: getCode(),
       name,
       phone,
       address,

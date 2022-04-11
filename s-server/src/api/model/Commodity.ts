@@ -1,5 +1,6 @@
 import { Sequelize, Model, DataTypes, Op } from 'sequelize'
-import type { Commodity as TCommodity } from '../../types'
+import { getCode } from '../DB'
+import type { Commodity as TCommodity, Sys } from '../../types'
 
 const MODEL_NAME = 's_commodities'
 
@@ -40,7 +41,6 @@ export default {
     })
   },
   add ({
-    code,
     title,
     price,
     priceUnit,
@@ -48,13 +48,13 @@ export default {
     count,
   }: TCommodity) {
     return Commodity.create({
-      code,
+      code: getCode(),
       title,
       price,
       priceUnit,
       fare,
       count,
-    }, { fields: ['title', 'price', 'priceUnit', 'fare', 'count']})
+    }, { fields: ['code', 'title', 'price', 'priceUnit', 'fare', 'count']})
   },
   remove (id: number) {
     return Commodity.destroy({ where: { id }})
@@ -74,5 +74,8 @@ export default {
         fare,
         count,
       }, { where: { id }})
+  },
+  updateFare ({ dFare }: Sys) {
+    return Commodity.update({ fare: dFare }, { where: {}})
   },
 }

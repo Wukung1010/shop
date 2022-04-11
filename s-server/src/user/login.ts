@@ -1,20 +1,19 @@
 import { Response, Request } from 'express'
 import { setToken, COOKIE } from './token'
+import api from '../api'
 
-function check ({ user, password }: { user: string; password: string; }) {
-  return user === 'admin' && password === '123'
+async function check ({ user, password }: { user: string; password: string; }) {
+  return await api.Sys.checkP(user, password)
 }
 
-export function useUser (req: Request, res: Response) {
-  if (check(req.body)) {
-    setToken(req.body.user)
-      .then((data) => {
-        res.setHeader('set-cookie', `${COOKIE}=${data}`)
-        res.json({
-          success: true,
-          user: req.body.user,
-        })
-      })
+export async function useUser (req: Request, res: Response) {
+  if (await check(req.body)) {
+    const data = await setToken(req.body.user)
+    res.setHeader('set-cookie', `${COOKIE}=${data}`)
+    res.json({
+      success: true,
+      user: req.body.user,
+    })
   } else {
     res.json({ success: false }).end()
   }

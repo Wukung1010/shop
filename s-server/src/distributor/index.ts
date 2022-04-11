@@ -36,7 +36,7 @@ export function useDistributor (req: Request, res: Response) {
       .one(req.query.d as any)
       .then((data) => {
         if (data) {
-          const msg = `http://124.70.194.78:3000/mobile?id=${(data as any).id}`
+          const msg = `http://124.70.194.78:3000/mobile?id=${(data as any).code}`
           const name = (data as any).name
           const phone = (data as any).phone
           QR(msg, name, phone).then((val) => {

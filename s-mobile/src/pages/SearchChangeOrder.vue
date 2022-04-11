@@ -38,7 +38,7 @@ onMounted(() => {
     <div v-show="list.length > 0" class="flex-auto">
       <div v-for="item, index in list" :key="index" class="py-1 px-3 border-b" @click="show(index)">
         <div class="flex">
-          <span class="text-gray-500 text-sm block flex-auto">订单号:{{item.id}}</span>
+          <span class="text-gray-500 text-sm block flex-auto">订单号:{{item.code}}</span>
           <span class="text-gray-500 text-sm">{{new Date(item.createdAt!).toLocaleString()}}</span>
         </div>
         <div class="flex text-ellipsis whitespace-nowrap">
