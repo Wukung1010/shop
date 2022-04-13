@@ -17,9 +17,9 @@ function login () {
   } else {
     warnInfo.value = ''
     loadding.value = true
-    store.dispatch('loadCommodities').then(() => {
+    store.commit('phone', phone.value)
+    store.dispatch('init').then(() => {
       loadding.value = false
-      store.commit('phone', phone.value)
       router.replace('/main/order')
     })
   }

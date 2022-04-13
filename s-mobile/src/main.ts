@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import App from './App.vue'
 
-store.commit('distributor', window.location.pathname.replace('/id=', ''))
+store.commit('distributor', window.location.search.replace('?id=', ''))
 
 const app = createApp(App)
 app.use(router)

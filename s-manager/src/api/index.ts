@@ -170,4 +170,16 @@ export default {
       body: JSON.stringify({ id }),
     })
   },
+  updateLogo (file: any) {
+    return fetch('/api/upload/logo', {
+      method: 'POST',
+      body: file
+    })
+  },
+  updateQR (file: any) {
+    return fetch('/api/upload/QR', {
+      method: 'POST',
+      body: file
+    })
+  }
 }

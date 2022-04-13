@@ -1,7 +1,10 @@
-import { Commodity, Order, OrderState } from "../../../types"
+import { Commodity, Order, OrderState } from '../types'
 
 const SERVER_ADRESS = ''
 const PRE = '/api/mobile'
+const HEADERS = {
+  'Content-Type': 'application/json'
+}
 
 const cache = new Map<String, Commodity>()
 let errorHandler = (code: Error) => {
@@ -13,12 +16,19 @@ const responseHandler = (response: Response) => {
 }
 
 export default {
+  getUserAddress (phone: string) {
+    return fetch(`${PRE}/order/user`, {
+      method: 'POST',
+      headers: HEADERS,
+      body: JSON.stringify({ phone })
+    })
+    .then(responseHandler)
+    .catch((err) => errorHandler(err))
+  },
   getCommodityList () {
     return fetch(`${PRE}/commodity/all`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: HEADERS,
     })
     .then(responseHandler)
     .catch((err) => errorHandler(err))
@@ -29,9 +39,7 @@ export default {
     } else {
       return fetch(`${PRE}/commodity/find`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: HEADERS,
         body: JSON.stringify({ id, shopID })
       })
       .then(responseHandler)
@@ -42,13 +50,11 @@ export default {
       .catch((err) => errorHandler(err))
     }
   },
-  updateOrder (order: Order) {
+  updateOrder (id: number, state: OrderState) {
     return fetch(`${PRE}/order/update`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ id: order.id, state: OrderState.CANNEL })
+      headers: HEADERS,
+      body: JSON.stringify({ id, state })
     })
     .then(responseHandler)
     .catch((err) => errorHandler(err))
@@ -56,9 +62,7 @@ export default {
   submitOrder (order: Order) {
     return fetch(`${PRE}/order/add`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: HEADERS,
       body: JSON.stringify(order)
     })
     .then(responseHandler)
@@ -67,10 +71,8 @@ export default {
   searchOrder (phone: string) {
     return fetch(`${PRE}/order/find`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ phone, state: OrderState.PRE_PAY })
+      headers: HEADERS,
+      body: JSON.stringify({ phone })
     })
     .then(responseHandler)
     .catch((err) => errorHandler(err))
@@ -78,10 +80,8 @@ export default {
   searchCannelOrder (phone: string) {
     return fetch(`${PRE}/order/find`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ phone, state: OrderState.CANNEL })
+      headers: HEADERS,
+      body: JSON.stringify({ phone })
     })
     .then(responseHandler)
     .catch((err) => errorHandler(err))

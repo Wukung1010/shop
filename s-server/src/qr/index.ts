@@ -1,16 +1,13 @@
 import { Request, Response } from 'express'
-import fs from 'fs'
+import { readFile } from '../file'
 
-const logo = './assets/logo.jpg'
-const QR = './assets/QR.jpeg'
-
-export function useQR (req: Request, res: Response) {
+export async function useQR (req: Request, res: Response) {
   if (req.path.endsWith('/logo')) {
-    const buffer = fs.readFileSync(logo)
+    const buffer = await readFile('logo')
     res.writeHead(200, { 'Content-Type': 'application/png' })
     res.end(buffer)
   } else if (req.path.endsWith('/business')) {
-    const buffer = fs.readFileSync(QR)
+    const buffer = await readFile('QR')
     res.writeHead(200, { 'Content-Type': 'application/png' })
     res.end(buffer)
   } else if (req.path.endsWith('/uploadLogo')) {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { Commodity } from '../../../types'
+import type { Commodity } from '../types'
 import User from '../components/UserInfo.vue'
 import CommodityList from '../components/CommodityList.vue'
 import Confirm from '../components/Confirm.vue'
@@ -64,7 +64,6 @@ function confirmSubmit () {
           <div class="flex-auto space-y-3">
             <span class="text-lg block">{{item.title}}</span>
             <span>¥{{item.price}}/{{item.priceUnit}}</span>
-            <span class="text-sm block">库存: {{item.count}}</span>
           </div>
           <div class="flex flex-col w-14 text-center border-l">
             <div @click="store.commit('addToCart', { count: 1, commodity: item })" class="h-1/3">+</div>

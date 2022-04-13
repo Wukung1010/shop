@@ -6,8 +6,8 @@ export type Address = {
 }
 
 export type Time = {
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: number;
+  updatedAt?: number;
 }
 
 export type Commodity = {
@@ -20,7 +20,7 @@ export type Commodity = {
   count: number;
 } & Time
 
-export type BuyCommodity = Commodity & { buyCount: number }
+export type BuyCommodity = Pick<Commodity, 'id'|'code'|'title'|'price'|'fare'|'priceUnit'> & { buyCount: number }
 
 export type Order = {
   id: number;
@@ -42,13 +42,16 @@ export enum OrderState {
   CANNEL,
   DONE,
   DEL,
+  PRE_SEND,
+  SENDED,
+  PRE_CANNEL
 }
 
 export type Distributor = {
   id: number;
   code: string;
   name: string;
-  phone: string;
+  phone: number;
   address: string;
   remarks: string;
 } & Time

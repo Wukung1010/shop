@@ -42,6 +42,8 @@ export enum OrderState {
   CANNEL,
   DONE,
   DEL,
+  PRE_SEND,
+  SENDED,
 }
 
 export type Distributor = {

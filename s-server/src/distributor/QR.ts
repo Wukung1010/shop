@@ -1,9 +1,8 @@
 import { AwesomeQR } from 'awesome-qr'
-import fs from 'fs'
-import path from 'path'
+import { readFile } from '../file'
 
-export default function (msg: string, name: string, phone: string) {
-  const logo = fs.readFileSync(path.resolve(__dirname, '../../assets/logo.jpg'))
+export default async function (msg: string, name: string, phone: string) {
+  const logo = await readFile('logo')
   return new AwesomeQR({
     text: msg,
     size: 400,

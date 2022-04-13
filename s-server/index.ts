@@ -1,10 +1,12 @@
 import express, { Request, Response, NextFunction} from 'express'
+import multer from 'multer'
 import { useToken, useUser } from './src/user'
 import { useCommodity } from './src/commodity'
 import { useOrder } from './src/order'
 import { useDistributor } from './src/distributor'
 import { useSys } from './src/sys'
 import { useQR } from './src/qr'
+import { useFile } from './src/file'
 import api from './src/api'
 import { PORT } from './src/config'
 
@@ -37,13 +39,21 @@ app.use((error: number, req: Request, res: Response, next: NextFunction) => {
 
 app.use('/manager', express.static('./manager/'))
 app.use('/mobile', express.static('./mobile/'))
-app.use(express.static('./assets/'))
+app.use(express.static('./assets/', {
+  setHeaders(res) {
+    res.setHeader('Cache-Control', 'no-cache')
+  }
+}))
 
 app.use('/api/login', useUser)
+app.use('/api(/manager)?(/mobile)?/commodity', useCommodity)
 app.use('/api(/manager)?(/mobile)?/commodity', useCommodity)
 app.use('/api(/manager)?(/mobile)?/order', useOrder)
 app.use('/api(/manager)?/distributor', useDistributor)
 app.use('/api(/manager)?/sys', useSys)
 app.use('/api(/manager)?/qr', useQR)
+const uploads = multer({ dest: 'uploads/' })
+app.use('/api/upload', uploads.single('file'), useFile)
+app.use('/api/upload', uploads.single('file'), useFile)
 
 app.listen(PORT)

@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import { BuyCommodity, Commodity, Address, OrderState } from '../../../types'
+import { BuyCommodity, Commodity, Address, OrderState } from '../types'
 import api from '../api'
 
 export type Store = {
@@ -94,17 +94,15 @@ const store = createStore<Store>({
     },
   },
   actions: {
-    loadCommodities ({ commit, state }) {
-      return new Promise((res, rej) => {
-        if (!state.commodity.loaded) {
-          api.getCommodityList().then((data) => {
-            commit('initCommodityList', data)
-            res(1)
-          })
-        } else {
-          res(1)
+    async init ({ commit, state }) {
+      if (!state.commodity.loaded) {
+        const data = await api.getCommodityList()
+        commit('initCommodityList', data)
+        const userInfo = await api.getUserAddress(state.user.phone)
+        if (userInfo) {
+          commit('user', userInfo)
         }
-      })
+      }
     },
     submitOrder ({ state }) {
       return new Promise((res, rej) => {

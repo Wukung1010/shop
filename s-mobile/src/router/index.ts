@@ -1,6 +1,6 @@
 import Order from '../pages/Order.vue'
 import SearchOrder from '../pages/SearchOrder.vue'
-import SearchChangeOrder from '../pages/SearchChangeOrder.vue'
+import SearchChangeOrder from '../pages/SearchCannelOrder.vue'
 import Login from '../pages/Login.vue'
 import Main from '../pages/Main.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'

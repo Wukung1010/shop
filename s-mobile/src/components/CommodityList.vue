@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useStore } from 'vuex'
 import type { Store } from '../store'
-import type { Commodity } from '../../../types'
+import type { Commodity } from '../types'
 
 const store = useStore<Store>()
 

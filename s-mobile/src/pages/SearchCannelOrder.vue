@@ -2,9 +2,8 @@
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { Order, OrderState } from '../types'
-import QR from '../components/QR.vue'
-import getStateTitle from './getStateTitle'
 import ScrollLoad from '../components/ScrollLoad.vue'
+import getStateTitle from './getStateTitle'
 import api from '../api'
 
 const store = useStore()
@@ -12,15 +11,6 @@ const store = useStore()
 const showOrderIndex = ref(-1)
 
 let list = ref<Order[]>([])
-
-function formatDate (dateStr: number) {
-  const d = new Date(dateStr)
-  let m = `${d.getMinutes()}`
-  m = m.length === 1 ? `0${m}` : m
-  let h = `${d.getHours()}`
-  h = h.length === 1 ? `0${h}` : h
-  return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${h}:${m}`
-}
 
 function show (index: number) {
   if (showOrderIndex.value === index) {
@@ -30,21 +20,12 @@ function show (index: number) {
   }
 }
 
-const showQR = ref(false)
-function pay () {
-  showQR.value = true
-}
-
-function cannelOrder (order: Order) {
-  api.updateOrder(order.id, OrderState.PRE_CANNEL).then(() => search())
-}
-
 const loadding = ref(false)
 function search () {
   loadding.value = true
   api
-    .searchOrder(store.state.user.phone)
-    .then((data) => data.filter((item: Order) => item.state !== OrderState.PRE_CANNEL && item.state !== OrderState.CANNEL && item.state !== OrderState.DEL))
+    .searchCannelOrder(store.state.user.phone)
+    .then((data) => data.filter((item: Order) => item.state === OrderState.CANNEL || item.state === OrderState.PRE_CANNEL))
     .then((data) => list.value = data)
     .finally(() => loadding.value = false)
 }
@@ -52,7 +33,6 @@ function search () {
 onMounted(() => {
   search()
 })
-
 </script>
 
 <template>
@@ -74,27 +54,14 @@ onMounted(() => {
             <span>{{item.address}}</span>
             <span class="text-sm text-gray-500">备注</span>
             <span>{{item.remarks}}</span>
-            <span class="text-sm text-gray-500">商品</span>
-            <div class="flex" v-for="c in item.commodities">
-              <div class="flex-auto">
-                <span>{{c.title}}</span>
-                <span class="ml-1">X{{c.buyCount}}</span>
-              </div>
-              <span>¥{{(c.price * c.buyCount).toFixed(2)}}</span>
-            </div>
           </div>
           <div class="flex">
-            <span class="text-gray-500 text-sm flex-auto">{{formatDate(item.createdAt as any)}}</span>
+            <span class="text-gray-500 text-sm flex-auto">{{new Date(item.createdAt!).toLocaleString()}}</span>
             <span class="text-rose-400">总价: ¥{{item.total}}</span>
-          </div>
-          <div class="text-sm text-right">
-            <button class="py-1 px-1" @click.stop="cannelOrder(item)">退单</button>
-            <button class="border py-1 px-5 ml-1 bg-teal-400" v-if="item.state === OrderState.PRE_PAY" @click.stop="pay()">支付</button>
           </div>
         </div>
       </div>
     </ScrollLoad>
-    <QR v-show="showQR" @cannel="showQR = false"/>
   </div>
 </template>
 
