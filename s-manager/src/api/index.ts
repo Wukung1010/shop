@@ -33,6 +33,13 @@ export default {
       body: JSON.stringify(data),
     })
   },
+  updatePhone (phone: string) {
+    return http('/api/sys/updatePhone', {
+      method: 'POST',
+      headers: HEADER_JSON,
+      body: JSON.stringify({ phone })
+    })
+  },
   changeP (op: string, np: string) {
     return http('/api/sys/updateP', {
       method: 'POST',
@@ -43,13 +50,13 @@ export default {
   getCommon () {
     return http('/api/sys/all', {
       method: 'GET',
-    })
+    }).then(([data]) => data)
   },
-  updateCommon (data: Sys) {
-    return http('/api/sys/update', {
+  updateFare (fare: number) {
+    return http('/api/sys/updateFare', {
       method: 'POST',
       headers: HEADER_JSON,
-      body: JSON.stringify(data),
+      body: JSON.stringify({ fare }),
     })
   },
   getAllCommodities () {

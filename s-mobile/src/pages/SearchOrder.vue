@@ -31,22 +31,33 @@ function show (index: number) {
 }
 
 const showQR = ref(false)
-function pay () {
+const curOrder = ref<Order>()
+function pay (item: Order) {
   showQR.value = true
+  curOrder.value = item
 }
 
 function cannelOrder (order: Order) {
   api.updateOrder(order.id, OrderState.PRE_CANNEL).then(() => search())
 }
 
+const tel = ref<string>('')
+const telElement = ref<HTMLLinkElement>()
+function callWaitter () {
+  telElement.value?.click()
+}
+
 const loadding = ref(false)
 function search () {
   loadding.value = true
-  api
-    .searchOrder(store.state.user.phone)
-    .then((data) => data.filter((item: Order) => item.state !== OrderState.PRE_CANNEL && item.state !== OrderState.CANNEL && item.state !== OrderState.DEL))
-    .then((data) => list.value = data)
-    .finally(() => loadding.value = false)
+  Promise.all([api.searchOrder(store.state.user.phone), api.getCommon()])
+    .then(([orders, { phone }]) => {
+      list.value = orders.filter((item: Order) => {
+        return item.state !== OrderState.PRE_CANNEL && item.state !== OrderState.CANNEL && item.state !== OrderState.DEL
+      })
+      tel.value = phone
+      loadding.value = false
+    })
 }
 
 onMounted(() => {
@@ -59,9 +70,7 @@ onMounted(() => {
   <div class="h-full bg-white overflow-auto flex flex-col">
     <ScrollLoad @load="search">
       <div class="flex-auto">
-        <div v-show="list.length === 0" class="p-3 text-center text-zinc-400">{{loadding ? '加载中...' : '空空如也~'}}</div>
-        <div v-for="item, index in list" :key="index" class="py-1 px-3 border-b" @click="show(index)">
-          <div class="flex">
+        <div v-show="list.length === 0" class="p-3 text-center text-zinc-400">{{loadding ? '加载中...' : '空空如也~'}}</div> <div v-for="item, index in list" :key="index" class="py-1 px-3 border-b" @click="show(index)"> <div class="flex">
             <span class="text-gray-500 text-sm block flex-auto">订单号:{{item.code}}</span>
             <span>{{getStateTitle(item.state)}}</span>
           </div>
@@ -89,12 +98,14 @@ onMounted(() => {
           </div>
           <div class="text-sm text-right">
             <button class="py-1 px-1" @click.stop="cannelOrder(item)">退单</button>
-            <button class="border py-1 px-5 ml-1 bg-teal-400" v-if="item.state === OrderState.PRE_PAY" @click.stop="pay()">支付</button>
+            <button class="ml-2" @click.stop="callWaitter">联系客服</button>
+            <button class="px-5 ml-1 bg-teal-400" v-if="item.state === OrderState.PRE_PAY" @click.stop="pay(item)">支付</button>
           </div>
         </div>
       </div>
     </ScrollLoad>
-    <QR v-show="showQR" @cannel="showQR = false"/>
+    <QR v-show="showQR" :price="curOrder?.total || 0" @cannel="showQR = false"/>
+    <a v-show="false" ref="telElement" :href="'tel:'+tel"></a>
   </div>
 </template>
 

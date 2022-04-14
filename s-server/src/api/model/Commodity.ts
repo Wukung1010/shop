@@ -75,7 +75,7 @@ export default {
         count,
       }, { where: { id }})
   },
-  updateFare ({ dFare }: Sys) {
-    return Commodity.update({ fare: dFare }, { where: {}})
+  updateFare (fare: number) {
+    return Commodity.update({ fare }, { where: {}})
   },
 }

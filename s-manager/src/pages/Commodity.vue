@@ -6,7 +6,7 @@ import Table from '../components/Table.vue'
 import api from '../api'
 import type { Commodity, Sys } from '../types'
 
-const common = ref<Sys>({ dFare: 0, dPriceUnit: '袋' })
+const common = ref<Sys>({ dFare: 0, dPriceUnit: '袋', phone: '' })
 const commodities = ref<Commodity[]>([])
 const columns = [ '序号', '商品名称', '商品价格', '运费', '库存', '创建时间', '更新时间', '操作' ]
 const sizes = [ 30, 200, 90, 90, 90, 100, 100, 80 ]
@@ -60,7 +60,7 @@ function loadCommodity () {
     .all([api.getAllCommodities(), api.getCommon()])
     .then(([d1, d2]) => {
       commodities.value = d1
-      common.value = d2[0]
+      common.value = d2
       loadding.value = false
     })
 }
@@ -85,7 +85,7 @@ function removeCommodity (index: number) {
 
 function updateDfare () {
   api
-    .updateCommon(common.value)
+    .updateFare(common.value.dFare)
     .then(() => {
       loadCommodity()
     })

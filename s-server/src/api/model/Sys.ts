@@ -9,6 +9,7 @@ const T_Sys = {
     autoIncrement: true,
     primaryKey: true,
   },
+  phone: DataTypes.STRING,
   dPriceUnit: DataTypes.STRING,
   dFare: DataTypes.INTEGER,
   n: DataTypes.STRING,
@@ -24,7 +25,7 @@ export default {
       .count()
       .then((count) => {
         if (count === 0) {
-          Sys.create({ dPriceUnit: '袋', dFare: 0, n: 'admin', p: '123456' })
+          Sys.create({ dPriceUnit: '袋', dFare: 0, phone: '13111111111', n: 'admin', p: '123456' })
         }
         return Sys
       })
@@ -32,10 +33,16 @@ export default {
   all () {
     return Sys.findAll()
   },
-  update ({ dPriceUnit, dFare }: TSys) {
+  update ({ dPriceUnit, dFare, phone }: TSys) {
     return Sys
-      .update({ dPriceUnit, dFare }, { where: {}})
+      .update({ dPriceUnit, dFare, phone }, { where: {}})
       .then(([count]) => count > 0)
+  },
+  updatePhone (phone: string) {
+    return Sys.update({ phone }, { where: {}})
+  },
+  updateFare (fare: number) {
+    return Sys.update({ dFare: fare }, { where: {}})
   },
   checkP (n: string, p: string) {
     return Sys

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import api from '../api'
 
 const logo = '/api/manager/qr/logo'
@@ -60,6 +60,17 @@ function changeP () {
     }
   })
 }
+
+const phone = ref<string>('')
+function loadPhone () {
+  api
+    .getCommon()
+    .then(({ phone: p }) => phone.value = p)
+}
+function updatePhone () {
+  api.updatePhone(phone.value).then(() => loadPhone())
+}
+onMounted(() => loadPhone())
 </script>
 
 <template>
@@ -81,6 +92,13 @@ function changeP () {
       </div>
     </div>
     <div class="r-box bg-white space-y-3 flex flex-col">
+      <span class="text-2xl border-b text-gray-500">修改商家电话</span>
+      <div>
+        <input class="border border-gray-400" :value="phone" type="text">
+        <button class="ok-btn ml-5 px-5" @click="updatePhone">更新电话</button>
+      </div>
+    </div>
+    <div class="r-box bg-white space-y-3 flex flex-col">
       <span class="text-2xl border-b text-gray-500">修改密码</span>
       <div class="space-y-3 px-3">
         <div>
@@ -95,7 +113,7 @@ function changeP () {
           <span class="w-20 inline-block">确认密码</span>
           <input class="border border-gray-400" type="text" v-model="nP2">
         </div>
-        <button class="ok-btn" @click="changeP">确认修改</button>
+        <button class="ok-btn px-5" @click="changeP">确认修改</button>
         <span :class="{ 'text-teal-400': success, 'text-rose-400': !success }">{{info}}</span>
       </div>
     </div>

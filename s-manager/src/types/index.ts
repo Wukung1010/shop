@@ -57,6 +57,7 @@ export type Distributor = {
 } & Time
 
 export type Sys = {
+  phone: string;
   dPriceUnit: string;
   dFare: number;
 }

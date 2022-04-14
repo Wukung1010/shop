@@ -1,4 +1,4 @@
-import { Commodity, Order, OrderState } from '../types'
+import { Commodity, Order, OrderState, Sys } from '../types'
 
 const SERVER_ADRESS = ''
 const PRE = '/api/mobile'
@@ -23,6 +23,15 @@ export default {
       body: JSON.stringify({ phone })
     })
     .then(responseHandler)
+    .catch((err) => errorHandler(err))
+  },
+  getCommon (): Promise<Sys> {
+    return fetch(`${PRE}/sys/all`, {
+      method: 'GET',
+      headers: HEADERS,
+    })
+    .then(responseHandler)
+    .then(([data]) => data)
     .catch((err) => errorHandler(err))
   },
   getCommodityList () {
@@ -68,7 +77,7 @@ export default {
     .then(responseHandler)
     .catch((err) => errorHandler(err))
   },
-  searchOrder (phone: string) {
+  searchOrder (phone: string): Promise<Order[]> {
     return fetch(`${PRE}/order/find`, {
       method: 'POST',
       headers: HEADERS,
